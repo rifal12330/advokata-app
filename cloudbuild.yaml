@@ -15,9 +15,7 @@ steps:
       - 'deploy'
 
 options:
-  # Configuring logging options
-  logging: CLOUD_LOGGING_ONLY    # Logs are sent to Cloud Logging only
-  logs_bucket: 'gs://advokata-bucket'  # Ganti dengan nama bucket Anda
+  logging: CLOUD_LOGGING_ONLY  # Mengarahkan log hanya ke Cloud Logging
 
 # Service account used for Cloud Build
 serviceAccount: 'your-service-account@your-project.iam.gserviceaccount.com'
