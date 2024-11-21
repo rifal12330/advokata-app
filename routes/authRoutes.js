@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel'); // Model User Anda
+const User = require('../models/userModel'); // Make sure this model is properly defined
 const router = express.Router();
 
 // Registrasi Pengguna Baru
@@ -15,8 +15,11 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        // Simpan pengguna baru
-        const newUser = await User.create({ email, password });
+        // Hash password sebelum disimpan
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Simpan pengguna baru dengan password yang sudah di-hash
+        const newUser = await User.create({ email, password: hashedPassword });
 
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -36,7 +39,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        // Verifikasi password
+        // Verifikasi password dengan password yang disimpan di DB
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
@@ -52,11 +55,10 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Tambahkan rute logout di sini
+// Logout Pengguna (Token-based, hanya menghapus token di client)
 router.post('/logout', (req, res) => {
-    // Hanya memberikan respons sukses tanpa melakukan perubahan lebih lanjut di server
+    // Dengan JWT, logout biasanya hanya dilakukan dengan menghapus token di client-side
     res.status(200).json({ message: 'Logout successful' });
 });
-
 
 module.exports = router;
