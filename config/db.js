@@ -9,10 +9,10 @@ const DB_NAME = process.env.DB_NAME;
 
 // Membuat koneksi menggunakan Sequelize dan Cloud SQL Socket
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
-    host: `/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db`,  // Menyambung menggunakan socket Cloud SQL
+    host: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,  // Menggunakan path socket Cloud SQL
     dialect: 'mysql',
     dialectOptions: {
-        socketPath: `/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db`,  // Menentukan path socket untuk Cloud SQL
+        socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,  // Menentukan path socket untuk Cloud SQL
     },
     logging: false,  // Matikan logging SQL jika tidak diperlukan
 });
