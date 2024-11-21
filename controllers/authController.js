@@ -1,54 +1,37 @@
-const User = require('../models/userModel');
-const bcrypt = require('bcryptjs'); // Menggunakan bcryptjs untuk keamanan password
-const jwt = require('jsonwebtoken');
+const { body, validationResult } = require('express-validator');
 
-// Registrasi pengguna baru
+// Validasi input untuk registrasi
+const registerValidation = [
+  body('email').isEmail().withMessage('Invalid email format'),
+  body('password')
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters long'),
+];
+
+// Validasi input untuk login
+const loginValidation = [
+  body('email').isEmail().withMessage('Invalid email format'),
+  body('password').notEmpty().withMessage('Password is required'),
+];
+
+// Controller registrasi
 const registerUser = async (req, res) => {
-    const { email, password } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    try {
-        // Cek apakah email sudah terdaftar
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(400).json({ message: 'Email already exists' });
-        }
-
-        // Hash password sebelum disimpan
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Simpan pengguna baru dengan password yang sudah dienkripsi
-        const newUser = await User.create({ email, password: hashedPassword });
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error registering user' });
-    }
+  // Logika registrasi...
 };
 
-// Login pengguna
+// Controller login
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-    try {
-        // Cari pengguna berdasarkan email
-        const user = await User.findOne({ where: { email } });
-        if (!user) {
-            return res.status(400).json({ message: 'User not found' });
-        }
-
-        // Verifikasi password
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-
-        // Generate token JWT
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error logging in' });
-    }
+  // Logika login...
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, registerValidation, loginValidation };
