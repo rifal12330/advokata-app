@@ -20,7 +20,7 @@ if (ENV === 'production') {
   };
 } else {
   // Menggunakan IP publik untuk pengembangan
-  sequelizeConfig.host = '127.0.0.1'; // Ganti dengan IP Cloud SQL jika tidak menggunakan proxy
+  sequelizeConfig.host = '34.128.122.222'; // Ganti dengan IP Cloud SQL jika tidak menggunakan proxy
   sequelizeConfig.port = 3306;
 }
 
