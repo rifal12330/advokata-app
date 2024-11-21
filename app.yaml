@@ -1,4 +1,4 @@
-runtime: nodejs16  # Pastikan runtime sesuai dengan versi yang Anda gunakan
+runtime: nodejs18  # Pastikan runtime sesuai dengan versi yang Anda gunakan
 env: standard
 entrypoint: npm start
 
