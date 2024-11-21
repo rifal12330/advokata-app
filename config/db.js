@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-const INSTANCE_CONNECTION_NAME = process.env.INSTANCE_CONNECTION_NAME;
+const INSTANCE_CONNECTION_NAME = process.env.INSTANCE_CONNECTION_NAME; // Format: <PROJECT_ID>:<REGION>:<INSTANCE_ID>
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
@@ -13,15 +13,18 @@ const sequelizeConfig = {
 };
 
 if (ENV === 'production') {
-  // Menggunakan socket Cloud SQL untuk produksi
+  // Koneksi melalui Unix socket di App Engine
   sequelizeConfig.host = `/cloudsql/${INSTANCE_CONNECTION_NAME}`;
   sequelizeConfig.dialectOptions = {
     socketPath: `/cloudsql/${INSTANCE_CONNECTION_NAME}`,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   };
 } else {
-  // Menggunakan IP publik untuk pengembangan
-  sequelizeConfig.host = '34.128.122.222'; // Ganti dengan IP Cloud SQL jika tidak menggunakan proxy
-  sequelizeConfig.port = 3306;
+  // Koneksi melalui IP publik untuk pengembangan
+  sequelizeConfig.host = process.env.DB_HOST || '127.0.0.1';
+  sequelizeConfig.port = process.env.DB_PORT || 3306;
 }
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, sequelizeConfig);
@@ -31,9 +34,12 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('Koneksi ke database berhasil');
   } catch (error) {
-    console.error('Tidak dapat menghubungkan ke database:', error);
+    console.error('Koneksi database gagal:', error.message);
+    console.error('Detail Error:', error);
     process.exit(1);
   }
 };
+
+connectDB();
 
 module.exports = { sequelize, connectDB };
