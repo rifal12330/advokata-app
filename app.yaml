@@ -1,4 +1,4 @@
-runtime: nodejs18  # Pastikan runtime sesuai dengan versi yang Anda gunakan
+runtime: nodejs18
 env: standard
 entrypoint: npm start
 
@@ -12,3 +12,5 @@ env_variables:
   DB_USER: "root"
   DB_PASS: "advokata123"
   DB_NAME: "advokataDB"
+  JWT_SECRET: "vPEqXpiZkmiMCYqeCbWagygFLqQTnuzKzxFTTULEJKqiMLqpwCazBxPtyYeYAXjDpQJgZdkBWMmZYRSbHbLFZietKrewefpcLvVU"
+  NODE_ENV: "production"
