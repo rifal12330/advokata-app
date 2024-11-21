@@ -1,16 +1,23 @@
 steps:
-  # Langkah pertama: Build Aplikasi (Jika diperlukan)
+  # Step 1: Install dependencies
   - name: 'gcr.io/cloud-builders/npm'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - 'npm install'
+    args: ['install']
 
-  # Langkah kedua: Deploy ke Google App Engine
-  - name: 'gcr.io/cloud-builders/gcloud'
+  # Step 2: Build your application
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'build']
+
+  # Step 3: Deploy to App Engine (contoh untuk App Engine)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     args:
+      - 'gcloud'
       - 'app'
       - 'deploy'
 
-# Set waktu timeout jika build terlalu lama
-timeout: '600s'
+options:
+  # Configuring logging options
+  logging: CLOUD_LOGGING_ONLY    # Logs are sent to Cloud Logging only
+  logs_bucket: 'gs://advokata-bucket'  # Ganti dengan nama bucket Anda
+
+# Service account used for Cloud Build
+serviceAccount: 'your-service-account@your-project.iam.gserviceaccount.com'
