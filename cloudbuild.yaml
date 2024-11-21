@@ -1,0 +1,16 @@
+steps:
+  # Langkah pertama: Build Aplikasi (Jika diperlukan)
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'npm install'
+
+  # Langkah kedua: Deploy ke Google App Engine
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'app'
+      - 'deploy'
+
+# Set waktu timeout jika build terlalu lama
+timeout: '600s'
