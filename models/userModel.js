@@ -28,4 +28,10 @@ const User = sequelize.define('User', {
     timestamps: true, // Menambahkan kolom createdAt dan updatedAt
 });
 
+// Hook untuk enkripsi password sebelum menyimpan ke database
+User.beforeCreate(async (user) => {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+    user.password = hashedPassword;
+});
+
 module.exports = User;
