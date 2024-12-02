@@ -22,7 +22,7 @@ const User = sequelize.define('User', {
         allowNull: false,
     }
 }, {
-    timestamps: true,  // Menambahkan createdAt dan updatedAt secara otomatis
+    timestamps: false,  // Menambahkan createdAt dan updatedAt secara otomatis
 });
 
 // Hook untuk enkripsi password sebelum menyimpan ke database
