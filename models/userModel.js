@@ -24,7 +24,7 @@ const User = sequelize.define('User', {
         allowNull: false, // Password wajib diisi
     },
 }, {
-    tableName: 'users', // Nama tabel di database
+    tableName: 'Users', // Nama tabel di database
     timestamps: true, // Menambahkan kolom createdAt dan updatedAt
 });
 
