@@ -1,26 +1,26 @@
 module.exports = {
   "development": {
-    "username": "root", // Ganti dengan username MySQL Anda
-    "password": "advokata123", // Ganti dengan password MySQL Anda
-    "database": "advokataDB", // Ganti dengan nama database Anda
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db", // Ganti dengan connection name instance Cloud SQL
+    "username": "root", 
+    "password": "advokata123", 
+    "database": "advokataDB", 
+    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db",
     "dialect": "mysql",
-    "logging": false // Optional, set to false to disable logging
+    "logging": false // 
   },
   "test": {
-    "username": "root", // Ganti dengan username MySQL Anda
-    "password": "advokata123", // Ganti dengan password MySQL Anda
-    "database": "advokataDB", // Ganti dengan nama database Anda
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db", // Ganti dengan connection name instance Cloud SQL
+    "username": "root", 
+    "password": "advokata123", 
+    "database": "advokataDB", 
+    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db", 
     "dialect": "mysql",
     "logging": false
   },
   "production": {
-    "username": "root", // Ganti dengan username MySQL Anda
-    "password": "advokata123", // Ganti dengan password MySQL Anda
-    "database": "advokataDB", // Ganti dengan nama database Anda
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db", // Ganti dengan connection name instance Cloud SQL
+    "username": "root", 
+    "password": "advokata123",
+    "database": "advokataDB",
+    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db",
     "dialect": "mysql",
-    "logging": false // Optional, set to false to disable logging in production
+    "logging": false 
   }
 };
