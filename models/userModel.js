@@ -1,5 +1,6 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Pastikan konfigurasi Sequelize Anda benar
+const { Sequelize, DataTypes } = require('sequelize');
+const { sequelize } = require('../config/db');
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
     id: {
@@ -9,23 +10,18 @@ const User = sequelize.define('User', {
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false, // Nama wajib diisi
+        allowNull: false,
+        unique: false,
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false, // Email wajib diisi
-        unique: true, // Email harus unik
-        validate: {
-            isEmail: true, // Validasi email
-        },
+        allowNull: false,
+        unique: true,
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false, // Password wajib diisi
-    },
-}, {
-    tableName: 'Users', // Nama tabel di database
-    timestamps: true, // Menambahkan kolom createdAt dan updatedAt
+        allowNull: false,
+    }
 });
 
 // Hook untuk enkripsi password sebelum menyimpan ke database
