@@ -9,41 +9,30 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        // Validasi input
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Name, email, and password are required' });
-        }
+        // Debug input
+        console.log('Request Body:', req.body);
 
         // Cek apakah email sudah terdaftar
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
+            console.log('Email already exists');
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        // Hash password sebelum disimpan
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('Password hashed:', hashedPassword);
 
-        // Simpan pengguna baru dengan nama, email, dan password yang sudah di-hash
-        const newUser = await User.create({
-            name,
-            email,
-            password: hashedPassword,
-        });
+        // Simpan pengguna baru
+        const newUser = await User.create({ name, email, password: hashedPassword });
+        console.log('User created:', newUser);
 
-        res.status(201).json({
-            message: 'User registered successfully',
-            user: {
-                id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-            },
-        });
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        console.error('Error during registration:', error);
-        res.status(500).json({ message: 'Error registering user' });
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error registering user', error: error.message });
     }
 });
-
 
 // Login Pengguna
 router.post('/login', async (req, res) => {
