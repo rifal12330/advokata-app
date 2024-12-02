@@ -6,14 +6,9 @@ const router = express.Router();
 
 // Registrasi Pengguna Baru
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        // Validasi input
-        if (!name || !email || !password) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
-
         // Cek apakah email sudah terdaftar
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
@@ -23,10 +18,10 @@ router.post('/register', async (req, res) => {
         // Hash password sebelum disimpan
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Simpan pengguna baru dengan password yang sudah di-hash dan nama
-        const newUser = await User.create({ name, email, password: hashedPassword });
+        // Simpan pengguna baru dengan password yang sudah di-hash
+        const newUser = await User.create({ email, password: hashedPassword });
 
-        res.status(201).json({ message: 'User registered successfully', user: { id: newUser.id, name: newUser.name, email: newUser.email } });
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error registering user' });
@@ -53,7 +48,7 @@ router.post('/login', async (req, res) => {
         // Generate token JWT
         const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.json({ token, message: 'Login successful!', user: { id: user.id, name: user.name, email: user.email } });
+        res.json({ token, message: 'Login successful!' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error logging in' });
