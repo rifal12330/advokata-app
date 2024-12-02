@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { connectDB } = require('./config/db');
+const { connectDB, sequelize } = require('./config/db'); // Mengimpor sequelize dan connectDB
+
 const {
   registerUser,
   loginUser,
