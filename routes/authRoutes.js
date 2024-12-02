@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel'); // Make sure this model is properly defined
+const User = require('../models/userModel'); // Pastikan model ini benar
 const router = express.Router();
 
 // Registrasi Pengguna Baru
@@ -19,17 +19,13 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Password hashed:', hashedPassword);
+        // Simpan pengguna baru (Hook di userModel.js akan otomatis hash password)
+        const newUser = await User.create({ name, email, password });
 
-        // Simpan pengguna baru
-        const newUser = await User.create({ name, email, password: hashedPassword });
-        console.log('User created:', newUser);
-
-        res.status(201).json({ message: 'User registered successfully' });
+        console.log('User created:', newUser.toJSON()); // Debug data yang disimpan
+        res.status(201).json({ message: 'User registered successfully', user: newUser });
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error registering user:', error);
         res.status(500).json({ message: 'Error registering user', error: error.message });
     }
 });
