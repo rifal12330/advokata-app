@@ -2,13 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const { connectDB, sequelize } = require('./config/db'); // Mengimpor sequelize dan connectDB
-
-const {
-  registerUser,
-  loginUser,
-  registerValidation,
-  loginValidation,
-} = require('./controllers/authController');
+const { registerUser, loginUser, registerValidation, loginValidation } = require('./controllers/authController');
 
 dotenv.config();
 const app = express();
