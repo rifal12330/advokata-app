@@ -20,6 +20,9 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  tableName: 'users',  // Menambahkan opsi tableName agar sesuai dengan tabel 'users'
+  timestamps: false,   // Tambahkan jika Anda tidak menggunakan kolom createdAt dan updatedAt
 });
 
 module.exports = User;

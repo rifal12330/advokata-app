@@ -1,30 +1,35 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel'); // Pastikan model ini memiliki kolom 'name'
+const User = require('../models/userModel'); // Make sure this model is properly defined
 const router = express.Router();
 
 // Registrasi Pengguna Baru
 router.post('/register', async (req, res) => {
-    const { email, password, name } = req.body;
+    const { name, email, password } = req.body;
 
     try {
+        // Validasi input
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
         // Cek apakah email sudah terdaftar
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-            return res.status(400).json({ error: true, message: 'Email already exists' });
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         // Hash password sebelum disimpan
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Simpan pengguna baru dengan password yang sudah di-hash
-        const newUser = await User.create({ email, password: hashedPassword, name });
+        // Simpan pengguna baru dengan password yang sudah di-hash dan nama
+        const newUser = await User.create({ name, email, password: hashedPassword });
 
-        res.status(201).json({ error: false, message: 'User registered successfully' });
+        res.status(201).json({ message: 'User registered successfully', user: { id: newUser.id, name: newUser.name, email: newUser.email } });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: true, message: 'Error registering user' });
+        res.status(500).json({ message: 'Error registering user' });
     }
 });
 
@@ -36,36 +41,29 @@ router.post('/login', async (req, res) => {
         // Cari pengguna berdasarkan email
         const user = await User.findOne({ where: { email } });
         if (!user) {
-            return res.status(400).json({ error: true, message: 'User not found' });
+            return res.status(400).json({ message: 'User not found' });
         }
 
         // Verifikasi password dengan password yang disimpan di DB
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            return res.status(400).json({ error: true, message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
         // Generate token JWT
         const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.json({
-            error: false,
-            message: 'Login successful!',
-            loginResult: {
-                userId: user.id,
-                name: user.name,
-                token: token,
-            },
-        });
+        res.json({ token, message: 'Login successful!', user: { id: user.id, name: user.name, email: user.email } });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: true, message: 'Error logging in' });
+        res.status(500).json({ message: 'Error logging in' });
     }
 });
 
-// Logout Pengguna
+// Logout Pengguna (Token-based, hanya menghapus token di client)
 router.post('/logout', (req, res) => {
-    res.status(200).json({ error: false, message: 'Logout successful' });
+    // Dengan JWT, logout biasanya hanya dilakukan dengan menghapus token di client-side
+    res.status(200).json({ message: 'Logout successful' });
 });
 
 module.exports = router;
