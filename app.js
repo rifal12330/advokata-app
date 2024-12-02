@@ -22,6 +22,16 @@ app.post('/api/auth/login', loginValidation, loginUser);
 // Koneksi ke database
 connectDB();
 
+// Sinkronisasi Database
+(async () => {
+  try {
+      await sequelize.sync({ alter: true }); // Mengupdate struktur tabel agar sinkron
+      console.log('Database synchronized successfully');
+  } catch (error) {
+      console.error('Error synchronizing database:', error);
+  }
+})();
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
