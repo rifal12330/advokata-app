@@ -6,9 +6,14 @@ const router = express.Router();
 
 // Registrasi Pengguna Baru
 router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     try {
+        // Validasi input
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Name, email, and password are required' });
+        }
+
         // Cek apakah email sudah terdaftar
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
@@ -18,15 +23,27 @@ router.post('/register', async (req, res) => {
         // Hash password sebelum disimpan
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Simpan pengguna baru dengan password yang sudah di-hash
-        const newUser = await User.create({ email, password: hashedPassword });
+        // Simpan pengguna baru dengan nama, email, dan password yang sudah di-hash
+        const newUser = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+        });
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({
+            message: 'User registered successfully',
+            user: {
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email,
+            },
+        });
     } catch (error) {
-        console.error(error);
+        console.error('Error during registration:', error);
         res.status(500).json({ message: 'Error registering user' });
     }
 });
+
 
 // Login Pengguna
 router.post('/login', async (req, res) => {

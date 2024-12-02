@@ -2,11 +2,11 @@ const { body, validationResult } = require('express-validator');
 
 // Validasi input untuk registrasi
 const registerValidation = [
+  body('name').notEmpty().withMessage('Name is required'),
   body('email').isEmail().withMessage('Invalid email format'),
-  body('password')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
 ];
+
 
 // Validasi input untuk login
 const loginValidation = [
@@ -20,8 +20,6 @@ const registerUser = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  // Logika registrasi...
 };
 
 // Controller login

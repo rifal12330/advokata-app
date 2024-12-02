@@ -3,6 +3,15 @@ const { sequelize } = require('../config/db');
 const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    name: { // Tambahkan kolom name
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
