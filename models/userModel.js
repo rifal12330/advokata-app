@@ -8,7 +8,7 @@ const User = sequelize.define('User', {
         primaryKey: true,
         autoIncrement: true,
     },
-    name: { // Tambahkan kolom name
+    name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -21,6 +21,8 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
     }
+}, {
+    timestamps: true,  // Menambahkan createdAt dan updatedAt secara otomatis
 });
 
 // Hook untuk enkripsi password sebelum menyimpan ke database
