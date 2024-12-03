@@ -9,8 +9,8 @@ automatic_scaling:
 
 env_variables:
   INSTANCE_CONNECTION_NAME: "amplified-coder-407814:asia-southeast2:advokata-db"
-  DB_USER: "root"
-  DB_PASS: "advokata123"
+  DB_USER: "rifal"
+  DB_PASS: "1234"
   DB_NAME: "advokataDB"
   JWT_SECRET: "vPEqXpiZkmiMCYqeCbWagygFLqQTnuzKzxFTTULEJKqiMLqpwCazBxPtyYeYAXjDpQJgZdkBWMmZYRSbHbLFZietKrewefpcLvVU"
   NODE_ENV: "production"
