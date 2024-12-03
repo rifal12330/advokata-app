@@ -30,17 +30,4 @@ const User = sequelize.define(
     }
 );
 
-// Hook untuk mengenkripsi password sebelum menyimpan pengguna
-User.beforeCreate(async (user) => {
-    try {
-        console.log('[Hook] Raw password before hashing:', user.password);
-        user.password = await bcrypt.hash(user.password, 10);
-        console.log('[Hook] Password hashed successfully');
-    } catch (error) {
-        console.error('[Hook] Error encrypting password:', error);
-        throw new Error('Failed to hash password');
-    }
-});
-
-
 module.exports = User;

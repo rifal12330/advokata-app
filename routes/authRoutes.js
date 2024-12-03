@@ -23,8 +23,11 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
+        // Hash password sebelum menyimpannya
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Simpan pengguna baru
-        const newUser = await User.create({ name, email, password });
+        const newUser = await User.create({ name, email, password: hashedPassword });
 
         // Jangan mengembalikan password ke client
         const { id, name: userName, email: userEmail } = newUser;
@@ -41,7 +44,6 @@ router.post('/register', async (req, res) => {
         });
     }
 });
-
 
 // Login Pengguna
 router.post('/login', async (req, res) => {
