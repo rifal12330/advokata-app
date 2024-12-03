@@ -14,22 +14,19 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        // Debugging untuk request body
-        console.log('Request Body:', req.body);
-
         // Cek apakah email sudah terdaftar
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        // Hash password sebelum menyimpannya
+        // Hash password before saving the user
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Simpan pengguna baru
+        // Create a new user with the hashed password
         const newUser = await User.create({ name, email, password: hashedPassword });
 
-        // Jangan mengembalikan password ke client
+        // Don't return the password to the client
         const { id, name: userName, email: userEmail } = newUser;
 
         res.status(201).json({
@@ -44,6 +41,7 @@ router.post('/register', async (req, res) => {
         });
     }
 });
+
 
 // Login Pengguna
 router.post('/login', async (req, res) => {
