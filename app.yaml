@@ -1,4 +1,4 @@
-runtime: nodejs18
+runtime: nodejs20
 env: standard
 entrypoint: npm start
 
@@ -8,9 +8,9 @@ automatic_scaling:
   target_throughput_utilization: 0.75
 
 env_variables:
-  INSTANCE_CONNECTION_NAME: "amplified-coder-407814:asia-southeast2:advokata-db"
-  DB_USER: "root"
-  DB_PASS: "advokata123"
+  INSTANCE_CONNECTION_NAME: "artful-mystery-441112-u2:asia-southeast2:advokata-db"
+  DB_USER: "rifal"
+  DB_PASS: "1933"
   DB_NAME: "advokataDB"
   JWT_SECRET: "vPEqXpiZkmiMCYqeCbWagygFLqQTnuzKzxFTTULEJKqiMLqpwCazBxPtyYeYAXjDpQJgZdkBWMmZYRSbHbLFZietKrewefpcLvVU"
   NODE_ENV: "production"

@@ -1,25 +1,25 @@
 module.exports = {
   "development": {
-    "username": "root", 
-    "password": "advokata123", 
+    "username": "rifal", 
+    "password": "1933", 
     "database": "advokataDB", 
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db",
+    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db",
     "dialect": "mysql",
     "logging": false // 
   },
   "test": {
-    "username": "root", 
-    "password": "advokata123", 
+    "username": "rifal", 
+    "password": "1933", 
     "database": "advokataDB", 
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db", 
+    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db", 
     "dialect": "mysql",
     "logging": false
   },
   "production": {
-    "username": "root", 
-    "password": "advokata123",
+    "username": "rifal", 
+    "password": "1933",
     "database": "advokataDB",
-    "host": "/cloudsql/amplified-coder-407814:asia-southeast2:advokata-db",
+    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db",
     "dialect": "mysql",
     "logging": false 
   }
