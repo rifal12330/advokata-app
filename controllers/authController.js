@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Sesuaikan dengan model User Anda
+const User = require('../models/userModel'); // Sesuaikan dengan model User Anda
 
 // Fungsi untuk menangani registrasi
 const registerUser = async (req, res) => {
