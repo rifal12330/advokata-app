@@ -1,8 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const { connectDB, sequelize } = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
+const { connectDB, sequelize } = require('./config/db'); // Mengimpor sequelize dan connectDB
+const { registerUser, loginUser, registerValidation, loginValidation } = require('./controllers/authController');
 
 dotenv.config();
 const app = express();
@@ -10,16 +10,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/auth', authRoutes);
+// Rute autentikasi
+app.post('/api/auth/register', registerValidation, registerUser);
+app.post('/api/auth/login', loginValidation, loginUser);
 
+// Koneksi ke database
 connectDB();
 
+// Sinkronisasi Database
 (async () => {
   try {
-    await sequelize.sync();
-    console.log('Database synchronized successfully');
+      await sequelize.sync({ alter: true }); // Mengupdate struktur tabel agar sinkron
+      console.log('Database synchronized successfully');
   } catch (error) {
-    console.error('Error synchronizing database:', error);
+      console.error('Error synchronizing database:', error);
   }
 })();
 
