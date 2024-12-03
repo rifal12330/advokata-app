@@ -14,3 +14,4 @@ env_variables:
   DB_NAME: "advokataDB"
   JWT_SECRET: "vPEqXpiZkmiMCYqeCbWagygFLqQTnuzKzxFTTULEJKqiMLqpwCazBxPtyYeYAXjDpQJgZdkBWMmZYRSbHbLFZietKrewefpcLvVU"
   NODE_ENV: "production"
+  PORT: "8080"
