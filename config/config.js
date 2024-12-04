@@ -1,25 +1,25 @@
 module.exports = {
   "development": {
-    "username": "rifal", 
-    "password": "1933", 
-    "database": "advokataDB", 
-    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db",
+    "username": process.env.DB_USER, 
+    "password": process.env.DB_PASS, 
+    "database": process.env.DB_NAME, 
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
-    "logging": false // 
+    "logging": false
   },
   "test": {
-    "username": "rifal", 
-    "password": "1933", 
-    "database": "advokataDB", 
-    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db", 
+    "username": process.env.DB_USER, 
+    "password": process.env.DB_PASS, 
+    "database": process.env.DB_NAME, 
+    "host": process.env.DB_HOST, 
     "dialect": "mysql",
     "logging": false
   },
   "production": {
-    "username": "rifal", 
-    "password": "1933",
-    "database": "advokataDB",
-    "host": "/cloudsql/artful-mystery-441112-u2:asia-southeast2:advokata-db",
+    "username": process.env.DB_USER, 
+    "password": process.env.DB_PASS,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "logging": false 
   }
